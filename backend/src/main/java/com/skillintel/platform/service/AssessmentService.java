@@ -20,6 +20,7 @@ public class AssessmentService {
     private final StudentAssessmentAnswerRepository answerRepository;
     private final StudentProfileRepository studentProfileRepository;
     private final EvidenceEngineService evidenceEngineService;
+    private final SkillRepository skillRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public AssessmentService(AssessmentRepository assessmentRepository,
@@ -27,13 +28,15 @@ public class AssessmentService {
                              StudentAssessmentRepository studentAssessmentRepository,
                              StudentAssessmentAnswerRepository answerRepository,
                              StudentProfileRepository studentProfileRepository,
-                             EvidenceEngineService evidenceEngineService) {
+                             EvidenceEngineService evidenceEngineService,
+                             SkillRepository skillRepository) {
         this.assessmentRepository = assessmentRepository;
         this.questionRepository = questionRepository;
         this.studentAssessmentRepository = studentAssessmentRepository;
         this.answerRepository = answerRepository;
         this.studentProfileRepository = studentProfileRepository;
         this.evidenceEngineService = evidenceEngineService;
+        this.skillRepository = skillRepository;
     }
 
     public AssessmentDto getAssessmentByRoleId(Long roleId) {
@@ -150,6 +153,7 @@ public class AssessmentService {
             skillWiseScores.put(skillName, score);
 
             evidenceEngineService.recordAssessmentEvidence(studentProfileId, skillId, score);
+            evidenceEngineService.recordMcqAssessmentWebsiteEvidence(studentProfileId, skillId, score);
         }
 
         return AssessmentResultDto.builder()
@@ -157,6 +161,64 @@ public class AssessmentService {
                 .overallScore(overallScore)
                 .skillWiseScores(skillWiseScores)
                 .questionFeedback(feedbacks)
+                .build();
+    }
+
+    public List<AssessmentSummaryDto> getAllAssessments() {
+        return assessmentRepository.findAll().stream().map(assessment -> {
+            return new AssessmentSummaryDto(
+                    assessment.getId(),
+                    assessment.getTitle(),
+                    assessment.getTargetRole().getName(),
+                    assessment.getDurationMinutes(),
+                    assessment.getQuestions() != null ? assessment.getQuestions().size() : 0
+            );
+        }).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public QuestionDto addQuestionToAssessment(Long assessmentId, CreateQuestionDto dto) {
+        Assessment assessment = assessmentRepository.findById(assessmentId)
+                .orElseThrow(() -> new RuntimeException("Assessment not found"));
+
+        Skill skill = skillRepository.findById(dto.getSkillId())
+                .orElseThrow(() -> new RuntimeException("Skill not found"));
+
+        String optionsJson = "[]";
+        try {
+            if (dto.getOptions() != null) {
+                optionsJson = objectMapper.writeValueAsString(dto.getOptions());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to serialize options", e);
+        }
+
+        AssessmentQuestion question = AssessmentQuestion.builder()
+                .assessment(assessment)
+                .skill(skill)
+                .questionText(dto.getQuestionText())
+                .type(dto.getType())
+                .codeSnippet(dto.getCodeSnippet())
+                .optionsJson(optionsJson)
+                .correctAnswer(dto.getCorrectAnswer())
+                .explanation(dto.getExplanation())
+                .build();
+
+        question = questionRepository.save(question);
+        if (assessment.getQuestions() == null) {
+            assessment.setQuestions(new ArrayList<>());
+        }
+        assessment.getQuestions().add(question);
+        assessmentRepository.save(assessment);
+
+        return QuestionDto.builder()
+                .id(question.getId())
+                .skillId(skill.getId())
+                .skillName(skill.getName())
+                .questionText(question.getQuestionText())
+                .type(question.getType())
+                .codeSnippet(question.getCodeSnippet())
+                .options(dto.getOptions())
                 .build();
     }
 }

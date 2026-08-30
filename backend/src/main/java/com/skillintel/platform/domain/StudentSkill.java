@@ -23,6 +23,7 @@ public class StudentSkill {
 
     private Integer selfDeclaredScore;
     private Integer assessmentScore;
+    private Integer mcqAssessmentWebsiteScore;
     private Integer evidenceScore;
     private Integer verifiedScore;
 
@@ -34,12 +35,13 @@ public class StudentSkill {
 
     public StudentSkill() {}
 
-    public StudentSkill(Long id, StudentProfile studentProfile, Skill skill, Integer selfDeclaredScore, Integer assessmentScore, Integer evidenceScore, Integer verifiedScore, VerificationStatus verificationStatus, LocalDateTime lastVerifiedAt) {
+    public StudentSkill(Long id, StudentProfile studentProfile, Skill skill, Integer selfDeclaredScore, Integer assessmentScore, Integer mcqAssessmentWebsiteScore, Integer evidenceScore, Integer verifiedScore, VerificationStatus verificationStatus, LocalDateTime lastVerifiedAt) {
         this.id = id;
         this.studentProfile = studentProfile;
         this.skill = skill;
         this.selfDeclaredScore = selfDeclaredScore;
         this.assessmentScore = assessmentScore;
+        this.mcqAssessmentWebsiteScore = mcqAssessmentWebsiteScore;
         this.evidenceScore = evidenceScore;
         this.verifiedScore = verifiedScore;
         this.verificationStatus = verificationStatus;
@@ -54,6 +56,7 @@ public class StudentSkill {
         private Skill skill;
         private Integer selfDeclaredScore;
         private Integer assessmentScore;
+        private Integer mcqAssessmentWebsiteScore;
         private Integer evidenceScore;
         private Integer verifiedScore;
         private VerificationStatus verificationStatus;
@@ -64,13 +67,14 @@ public class StudentSkill {
         public Builder skill(Skill skill) { this.skill = skill; return this; }
         public Builder selfDeclaredScore(Integer selfDeclaredScore) { this.selfDeclaredScore = selfDeclaredScore; return this; }
         public Builder assessmentScore(Integer assessmentScore) { this.assessmentScore = assessmentScore; return this; }
+        public Builder mcqAssessmentWebsiteScore(Integer mcqAssessmentWebsiteScore) { this.mcqAssessmentWebsiteScore = mcqAssessmentWebsiteScore; return this; }
         public Builder evidenceScore(Integer evidenceScore) { this.evidenceScore = evidenceScore; return this; }
         public Builder verifiedScore(Integer verifiedScore) { this.verifiedScore = verifiedScore; return this; }
         public Builder verificationStatus(VerificationStatus verificationStatus) { this.verificationStatus = verificationStatus; return this; }
         public Builder lastVerifiedAt(LocalDateTime lastVerifiedAt) { this.lastVerifiedAt = lastVerifiedAt; return this; }
 
         public StudentSkill build() {
-            return new StudentSkill(id, studentProfile, skill, selfDeclaredScore, assessmentScore, evidenceScore, verifiedScore, verificationStatus, lastVerifiedAt);
+            return new StudentSkill(id, studentProfile, skill, selfDeclaredScore, assessmentScore, mcqAssessmentWebsiteScore, evidenceScore, verifiedScore, verificationStatus, lastVerifiedAt);
         }
     }
 
@@ -84,6 +88,8 @@ public class StudentSkill {
     public void setSelfDeclaredScore(Integer selfDeclaredScore) { this.selfDeclaredScore = selfDeclaredScore; }
     public Integer getAssessmentScore() { return assessmentScore; }
     public void setAssessmentScore(Integer assessmentScore) { this.assessmentScore = assessmentScore; }
+    public Integer getMcqAssessmentWebsiteScore() { return mcqAssessmentWebsiteScore; }
+    public void setMcqAssessmentWebsiteScore(Integer mcqAssessmentWebsiteScore) { this.mcqAssessmentWebsiteScore = mcqAssessmentWebsiteScore; }
     public Integer getEvidenceScore() { return evidenceScore; }
     public void setEvidenceScore(Integer evidenceScore) { this.evidenceScore = evidenceScore; }
     public Integer getVerifiedScore() { return verifiedScore; }

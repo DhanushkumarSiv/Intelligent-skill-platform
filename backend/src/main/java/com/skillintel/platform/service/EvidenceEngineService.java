@@ -48,6 +48,17 @@ public class EvidenceEngineService {
     }
 
     @Transactional
+    public void recordMcqAssessmentWebsiteEvidence(Long studentProfileId, Long skillId, int assessmentScore) {
+        StudentSkill studentSkill = getOrCreateStudentSkill(studentProfileId, skillId);
+        studentSkill.setMcqAssessmentWebsiteScore(assessmentScore);
+
+        saveEvidenceRecord(studentSkill, EvidenceSource.MCQ_ASSESSMENT_WEBSITE, assessmentScore, WEIGHT_ASSESSMENT,
+                "MCQ Assessment Website evaluation score: " + assessmentScore + "/100");
+
+        recalculateVerifiedScore(studentSkill);
+    }
+
+    @Transactional
     public void recordGitHubEvidence(Long studentProfileId, Long skillId, int githubScore, String details) {
         StudentSkill studentSkill = getOrCreateStudentSkill(studentProfileId, skillId);
         studentSkill.setEvidenceScore(githubScore);
@@ -123,7 +134,8 @@ public class EvidenceEngineService {
             studentSkill.setVerificationStatus(VerificationStatus.VERIFIED);
         } else if (records.stream().anyMatch(r -> r.getSource() == EvidenceSource.GITHUB_AST || r.getSource() == EvidenceSource.PROJECT)) {
             studentSkill.setVerificationStatus(VerificationStatus.EVIDENCE_FOUND);
-        } else if (studentSkill.getAssessmentScore() != null && studentSkill.getAssessmentScore() > 0) {
+        } else if ((studentSkill.getAssessmentScore() != null && studentSkill.getAssessmentScore() > 0) ||
+                   (studentSkill.getMcqAssessmentWebsiteScore() != null && studentSkill.getMcqAssessmentWebsiteScore() > 0)) {
             studentSkill.setVerificationStatus(VerificationStatus.ASSESSED);
         } else {
             studentSkill.setVerificationStatus(VerificationStatus.SELF_DECLARED);
@@ -157,6 +169,7 @@ public class EvidenceEngineService {
                     .category(ss.getSkill().getCategory())
                     .selfDeclaredScore(ss.getSelfDeclaredScore())
                     .assessmentScore(ss.getAssessmentScore())
+                    .mcqAssessmentWebsiteScore(ss.getMcqAssessmentWebsiteScore())
                     .evidenceScore(ss.getEvidenceScore())
                     .verifiedScore(ss.getVerifiedScore())
                     .verificationStatus(ss.getVerificationStatus())

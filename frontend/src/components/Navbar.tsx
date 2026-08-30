@@ -195,6 +195,13 @@ export const Navbar: React.FC = () => {
                 <NavLink to="/faculty/students" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition ${isActive ? 'bg-purple-900/40 text-purple-400' : 'text-slate-400 hover:text-slate-200'}`}>
                   <span>Student Intelligence Audit</span>
                 </NavLink>
+                <NavLink to="/faculty/assessments" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition ${isActive ? 'bg-purple-900/40 text-purple-400' : 'text-slate-400 hover:text-slate-200'}`}>
+                  <span>MCQ Assessment Manager</span>
+                </NavLink>
+                <NavLink to="/faculty/assessment" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition flex items-center space-x-1.5 ${isActive ? 'bg-purple-900/40 text-purple-400' : 'text-slate-400 hover:text-slate-200'}`}>
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Take Assignment Exam</span>
+                </NavLink>
               </>
             )}
 
@@ -215,6 +222,10 @@ export const Navbar: React.FC = () => {
                 </NavLink>
                 <NavLink to="/industry/mentors" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition ${isActive ? 'bg-blue-900/40 text-blue-400' : 'text-slate-400 hover:text-slate-200'}`}>
                   <span>Mentors & Feedback</span>
+                </NavLink>
+                <NavLink to="/industry/assessments" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition flex items-center space-x-1.5 ${isActive ? 'bg-blue-900/40 text-blue-400' : 'text-slate-400 hover:text-slate-200'}`}>
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Assessment Manager</span>
                 </NavLink>
               </>
             )}
@@ -244,6 +255,10 @@ export const Navbar: React.FC = () => {
                 <NavLink to="/institution/curriculum" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition flex items-center space-x-1 ${isActive ? 'bg-amber-500/20 text-amber-400' : 'text-slate-400 hover:text-slate-200'}`}>
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>Curriculum Intelligence</span>
+                </NavLink>
+                <NavLink to="/institution/assessments" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition flex items-center space-x-1.5 ${isActive ? 'bg-amber-500/20 text-amber-400' : 'text-slate-400 hover:text-slate-200'}`}>
+                  <BookOpen className="w-3.5 h-3.5" />
+                  <span>Create Assessment</span>
                 </NavLink>
               </>
             )}

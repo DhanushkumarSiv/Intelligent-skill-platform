@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, CheckCircle2, ShieldAlert, Award, FileCode, CheckSquare, FileText, UserCheck } from 'lucide-react';
+import { X, CheckCircle2, ShieldAlert, Award, FileCode, CheckSquare, FileText, UserCheck, Sparkles } from 'lucide-react';
 import { StudentSkill, EvidenceSource } from '../types';
 
 interface EvidenceModalProps {
@@ -17,6 +17,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ skill, onClose }) 
       case 'PROJECT': return <FileText className="w-4 h-4 text-emerald-400" />;
       case 'CERTIFICATE': return <Award className="w-4 h-4 text-amber-400" />;
       case 'MENTOR': return <UserCheck className="w-4 h-4 text-cyan-400" />;
+      case 'MCQ_ASSESSMENT_WEBSITE': return <Sparkles className="w-4 h-4 text-pink-400" />;
       default: return <CheckCircle2 className="w-4 h-4 text-slate-400" />;
     }
   };
@@ -64,7 +65,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ skill, onClose }) 
         <div className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
           
           {/* Score Breakdown Summary */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-slate-800/50 p-3.5 rounded-xl border border-slate-800 text-center">
               <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Self-Declared</p>
               <p className="text-lg font-bold text-slate-300 mt-1">{skill.selfDeclaredScore || '--'}</p>
@@ -72,6 +73,10 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({ skill, onClose }) 
             <div className="bg-slate-800/50 p-3.5 rounded-xl border border-slate-800 text-center">
               <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Assessment</p>
               <p className="text-lg font-bold text-blue-400 mt-1">{skill.assessmentScore || '--'}</p>
+            </div>
+            <div className="bg-slate-800/50 p-3.5 rounded-xl border border-slate-800 text-center">
+              <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">MCQ Website</p>
+              <p className="text-lg font-bold text-pink-400 mt-1">{skill.mcqAssessmentWebsiteScore || '--'}</p>
             </div>
             <div className="bg-slate-800/50 p-3.5 rounded-xl border border-slate-800 text-center">
               <p className="text-[11px] text-slate-400 font-medium uppercase tracking-wider">Verified Score</p>

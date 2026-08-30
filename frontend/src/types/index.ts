@@ -15,36 +15,41 @@ export interface Skill {
   aliases?: string;
 }
 
+export type EvidenceSource = 'ASSESSMENT' | 'GITHUB_AST' | 'PROJECT' | 'CERTIFICATE' | 'MENTOR' | 'INSTITUTION' | 'MCQ_ASSESSMENT_WEBSITE';
+
+export interface SkillEvidence {
+  id: number;
+  source: EvidenceSource;
+  score: number;
+  weight: number;
+  details: string;
+  createdAt: string;
+}
+
 export interface StudentSkill {
+  id: number;
   skillId: number;
   skillName: string;
   category: string;
+  selfDeclaredScore?: number;
+  assessmentScore?: number;
+  mcqAssessmentWebsiteScore?: number;
+  evidenceScore?: number;
   verifiedScore: number;
-  confidenceScore: number;
-  status: 'VERIFIED' | 'SELF_DECLARED' | 'ASSESSED';
-  evidenceCount: number;
+  verificationStatus: 'VERIFIED' | 'SELF_DECLARED' | 'ASSESSED' | 'EVIDENCE_FOUND';
   lastVerifiedAt: string;
-}
-
-export interface EvidenceRecord {
-  id: number;
-  skillName: string;
-  source: 'GITHUB' | 'ASSESSMENT' | 'CERTIFICATE' | 'MENTOR' | 'PROJECT';
-  title: string;
-  weight: number;
-  score: number;
-  verifiedAt: string;
-  metadata: string;
+  evidenceList: SkillEvidence[];
 }
 
 export interface DigitalSkillPassport {
   studentId: number;
   studentName: string;
-  email: string;
+  targetRole: string;
   gitHubUsername: string;
-  overallScore: number;
+  overallPassportScore: number;
+  totalVerifiedSkills: number;
+  lastUpdatedAt: string;
   skills: StudentSkill[];
-  evidences: EvidenceRecord[];
 }
 
 export interface SkillGapDetail {
@@ -336,6 +341,70 @@ export interface CurriculumInsight {
   recommendation: string;
 }
 
+
+export type SkillPassport = DigitalSkillPassport;
+
+export interface Question {
+  id: number;
+  skillId: number;
+  skillName: string;
+  questionText: string;
+  type: 'MCQ' | 'CODE_OUTPUT';
+  codeSnippet?: string;
+  options: string[];
+}
+
+export interface Assessment {
+  id: number;
+  title: string;
+  targetRoleId: number;
+  targetRoleName: string;
+  durationMinutes: number;
+  totalQuestions: number;
+  questions?: Question[];
+}
+
+export interface AssessmentResult {
+  studentAssessmentId: number;
+  overallScore: number;
+  skillWiseScores: Record<string, number>;
+  questionFeedback: {
+    questionId: number;
+    skillName: string;
+    questionText: string;
+    selectedAnswer: string;
+    correctAnswer: string;
+    isCorrect: boolean;
+    explanation: string;
+  }[];
+}
+
+export interface DependencyEvidence {
+  dependencyName: string;
+  mappedSkill: string;
+  baseScore: number;
+}
+
+export interface AstEvidence {
+  filePath: string;
+  annotationOrConstruct: string;
+  mappedSkill: string;
+  codeDepthLevel: number;
+  detail: string;
+}
+
+export interface GitHubAnalysisResult {
+  repoName: string;
+  owner: string;
+  commitCount: number;
+  contributorRatio: number;
+  detectedLanguages: string[];
+  dependencies: DependencyEvidence[];
+  astFindings: AstEvidence[];
+  skillScores: Record<string, number>;
+  summaryText: string;
+}
+
 // Student Target Role & 4-Source Evidence Types
 export interface TargetRoleBenchmark {
   id: number;
@@ -356,5 +425,6 @@ export interface RequiredSkillBenchmark {
   gapPercentage: number;
   status: 'VERIFIED' | 'NEEDS_VERIFICATION' | 'CRITICAL_GAP';
 }
+
 
 

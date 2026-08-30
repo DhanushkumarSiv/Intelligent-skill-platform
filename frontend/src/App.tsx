@@ -21,6 +21,7 @@ import { IndustryCandidateSearchPage } from './pages/IndustryCandidateSearchPage
 import { FacultyProfilePage } from './pages/FacultyProfilePage';
 import { FacultyCollaborationsPage } from './pages/FacultyCollaborationsPage';
 import { FacultyStudentsPage } from './pages/FacultyStudentsPage';
+import { McqAssessmentManagerPage } from './pages/McqAssessmentManagerPage';
 import { IndustryCollaborationsPage } from './pages/IndustryCollaborationsPage';
 import { IndustryMentorsPage } from './pages/IndustryMentorsPage';
 import { StudentMentorshipPage } from './pages/StudentMentorshipPage';
@@ -48,11 +49,11 @@ export const App: React.FC = () => {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/" element={<Navigate to="/student/skill-passport" replace />} />
               
-              {/* Student Persona Routes - Protected for STUDENT */}
-              <Route path="/student/skill-passport" element={<ProtectedRoute allowedRoles={['STUDENT']}><SkillPassportPage /></ProtectedRoute>} />
+              {/* Student Persona Routes - Protected for cross-role viewing */}
+              <Route path="/student/skill-passport" element={<ProtectedRoute allowedRoles={['STUDENT', 'ACADEMICIAN', 'INDUSTRY', 'INSTITUTION_ADMIN']}><SkillPassportPage /></ProtectedRoute>} />
               <Route path="/student/target-role" element={<ProtectedRoute allowedRoles={['STUDENT']}><StudentRoleSelectionPage /></ProtectedRoute>} />
-              <Route path="/student/skills" element={<ProtectedRoute allowedRoles={['STUDENT']}><SkillsPage /></ProtectedRoute>} />
-              <Route path="/student/skill-gaps" element={<ProtectedRoute allowedRoles={['STUDENT']}><SkillGapsPage /></ProtectedRoute>} />
+              <Route path="/student/skills" element={<ProtectedRoute allowedRoles={['STUDENT', 'ACADEMICIAN', 'INDUSTRY', 'INSTITUTION_ADMIN']}><SkillsPage /></ProtectedRoute>} />
+              <Route path="/student/skill-gaps" element={<ProtectedRoute allowedRoles={['STUDENT', 'ACADEMICIAN', 'INDUSTRY', 'INSTITUTION_ADMIN']}><SkillGapsPage /></ProtectedRoute>} />
               <Route path="/student/learning" element={<ProtectedRoute allowedRoles={['STUDENT']}><LearningPage /></ProtectedRoute>} />
               <Route path="/student/learning/:id" element={<ProtectedRoute allowedRoles={['STUDENT']}><LearningPage /></ProtectedRoute>} />
               <Route path="/student/opportunities" element={<ProtectedRoute allowedRoles={['STUDENT']}><OpportunitiesPage /></ProtectedRoute>} />
@@ -60,16 +61,18 @@ export const App: React.FC = () => {
               <Route path="/student/applications" element={<ProtectedRoute allowedRoles={['STUDENT']}><StudentApplicationsPage /></ProtectedRoute>} />
               <Route path="/student/mentorship" element={<ProtectedRoute allowedRoles={['STUDENT']}><StudentMentorshipPage /></ProtectedRoute>} />
               <Route path="/student/collaborations" element={<ProtectedRoute allowedRoles={['STUDENT']}><StudentCollaborationsPage /></ProtectedRoute>} />
-              <Route path="/student/internships" element={<ProtectedRoute allowedRoles={['STUDENT']}><StudentInternshipsPage /></ProtectedRoute>} />
+              <Route path="/student/internships" element={<ProtectedRoute allowedRoles={['STUDENT', 'INDUSTRY', 'INSTITUTION_ADMIN']}><StudentInternshipsPage /></ProtectedRoute>} />
               <Route path="/student/assessment" element={<ProtectedRoute allowedRoles={['STUDENT']}><AssessmentPage /></ProtectedRoute>} />
-              <Route path="/student/github" element={<ProtectedRoute allowedRoles={['STUDENT']}><GitHubAnalysisPage /></ProtectedRoute>} />
-              <Route path="/student/projects" element={<ProtectedRoute allowedRoles={['STUDENT']}><ProjectsPage /></ProtectedRoute>} />
-              <Route path="/student/certificates" element={<ProtectedRoute allowedRoles={['STUDENT']}><CertificatesPage /></ProtectedRoute>} />
+              <Route path="/student/github" element={<ProtectedRoute allowedRoles={['STUDENT', 'ACADEMICIAN', 'INDUSTRY', 'INSTITUTION_ADMIN']}><GitHubAnalysisPage /></ProtectedRoute>} />
+              <Route path="/student/projects" element={<ProtectedRoute allowedRoles={['STUDENT', 'ACADEMICIAN', 'INDUSTRY', 'INSTITUTION_ADMIN']}><ProjectsPage /></ProtectedRoute>} />
+              <Route path="/student/certificates" element={<ProtectedRoute allowedRoles={['STUDENT', 'ACADEMICIAN', 'INDUSTRY', 'INSTITUTION_ADMIN']}><CertificatesPage /></ProtectedRoute>} />
 
-              {/* Academician (Faculty) Persona Routes - Protected for ACADEMICIAN */}
-              <Route path="/faculty/profile" element={<ProtectedRoute allowedRoles={['ACADEMICIAN']}><FacultyProfilePage /></ProtectedRoute>} />
+              {/* Academician (Faculty) Persona Routes - Protected for cross-role viewing */}
+              <Route path="/faculty/profile" element={<ProtectedRoute allowedRoles={['ACADEMICIAN', 'INDUSTRY', 'INSTITUTION_ADMIN']}><FacultyProfilePage /></ProtectedRoute>} />
               <Route path="/faculty/collaborations" element={<ProtectedRoute allowedRoles={['ACADEMICIAN']}><FacultyCollaborationsPage /></ProtectedRoute>} />
               <Route path="/faculty/students" element={<ProtectedRoute allowedRoles={['ACADEMICIAN']}><FacultyStudentsPage /></ProtectedRoute>} />
+              <Route path="/faculty/assessments" element={<ProtectedRoute allowedRoles={['ACADEMICIAN', 'INSTITUTION_ADMIN']}><McqAssessmentManagerPage /></ProtectedRoute>} />
+              <Route path="/faculty/assessment" element={<ProtectedRoute allowedRoles={['ACADEMICIAN']}><AssessmentPage /></ProtectedRoute>} />
 
               {/* Industry Persona Routes - Protected for INDUSTRY */}
               <Route path="/industry/dashboard" element={<ProtectedRoute allowedRoles={['INDUSTRY']}><IndustryDashboardPage /></ProtectedRoute>} />
@@ -77,6 +80,7 @@ export const App: React.FC = () => {
               <Route path="/industry/candidates" element={<ProtectedRoute allowedRoles={['INDUSTRY']}><IndustryCandidateSearchPage /></ProtectedRoute>} />
               <Route path="/industry/collaborations" element={<ProtectedRoute allowedRoles={['INDUSTRY']}><IndustryCollaborationsPage /></ProtectedRoute>} />
               <Route path="/industry/mentors" element={<ProtectedRoute allowedRoles={['INDUSTRY']}><IndustryMentorsPage /></ProtectedRoute>} />
+              <Route path="/industry/assessments" element={<ProtectedRoute allowedRoles={['INDUSTRY']}><McqAssessmentManagerPage /></ProtectedRoute>} />
 
               {/* Institution Admin / Analytics Routes - Protected for INSTITUTION_ADMIN */}
               <Route path="/institution/dashboard" element={<ProtectedRoute allowedRoles={['INSTITUTION_ADMIN']}><InstitutionDashboardPage /></ProtectedRoute>} />
@@ -86,6 +90,7 @@ export const App: React.FC = () => {
               <Route path="/institution/departments" element={<ProtectedRoute allowedRoles={['INSTITUTION_ADMIN']}><InstitutionDepartmentsPage /></ProtectedRoute>} />
               <Route path="/institution/placements" element={<ProtectedRoute allowedRoles={['INSTITUTION_ADMIN']}><InstitutionPlacementsPage /></ProtectedRoute>} />
               <Route path="/institution/curriculum" element={<ProtectedRoute allowedRoles={['INSTITUTION_ADMIN']}><InstitutionCurriculumPage /></ProtectedRoute>} />
+              <Route path="/institution/assessments" element={<ProtectedRoute allowedRoles={['INSTITUTION_ADMIN']}><McqAssessmentManagerPage /></ProtectedRoute>} />
 
               <Route path="*" element={<Navigate to="/login" replace />} />
             </Routes>

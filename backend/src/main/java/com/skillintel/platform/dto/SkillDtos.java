@@ -162,6 +162,7 @@ public class SkillDtos {
         private String category;
         private Integer selfDeclaredScore;
         private Integer assessmentScore;
+        private Integer mcqAssessmentWebsiteScore;
         private Integer evidenceScore;
         private Integer verifiedScore;
         private VerificationStatus verificationStatus;
@@ -169,13 +170,14 @@ public class SkillDtos {
         private List<SkillEvidenceDto> evidenceList;
 
         public StudentSkillDto() {}
-        public StudentSkillDto(Long id, Long skillId, String skillName, String category, Integer selfDeclaredScore, Integer assessmentScore, Integer evidenceScore, Integer verifiedScore, VerificationStatus verificationStatus, LocalDateTime lastVerifiedAt, List<SkillEvidenceDto> evidenceList) {
+        public StudentSkillDto(Long id, Long skillId, String skillName, String category, Integer selfDeclaredScore, Integer assessmentScore, Integer mcqAssessmentWebsiteScore, Integer evidenceScore, Integer verifiedScore, VerificationStatus verificationStatus, LocalDateTime lastVerifiedAt, List<SkillEvidenceDto> evidenceList) {
             this.id = id;
             this.skillId = skillId;
             this.skillName = skillName;
             this.category = category;
             this.selfDeclaredScore = selfDeclaredScore;
             this.assessmentScore = assessmentScore;
+            this.mcqAssessmentWebsiteScore = mcqAssessmentWebsiteScore;
             this.evidenceScore = evidenceScore;
             this.verifiedScore = verifiedScore;
             this.verificationStatus = verificationStatus;
@@ -191,6 +193,7 @@ public class SkillDtos {
             private String category;
             private Integer selfDeclaredScore;
             private Integer assessmentScore;
+            private Integer mcqAssessmentWebsiteScore;
             private Integer evidenceScore;
             private Integer verifiedScore;
             private VerificationStatus verificationStatus;
@@ -203,6 +206,7 @@ public class SkillDtos {
             public Builder category(String category) { this.category = category; return this; }
             public Builder selfDeclaredScore(Integer selfDeclaredScore) { this.selfDeclaredScore = selfDeclaredScore; return this; }
             public Builder assessmentScore(Integer assessmentScore) { this.assessmentScore = assessmentScore; return this; }
+            public Builder mcqAssessmentWebsiteScore(Integer mcqAssessmentWebsiteScore) { this.mcqAssessmentWebsiteScore = mcqAssessmentWebsiteScore; return this; }
             public Builder evidenceScore(Integer evidenceScore) { this.evidenceScore = evidenceScore; return this; }
             public Builder verifiedScore(Integer verifiedScore) { this.verifiedScore = verifiedScore; return this; }
             public Builder verificationStatus(VerificationStatus verificationStatus) { this.verificationStatus = verificationStatus; return this; }
@@ -210,7 +214,7 @@ public class SkillDtos {
             public Builder evidenceList(List<SkillEvidenceDto> evidenceList) { this.evidenceList = evidenceList; return this; }
 
             public StudentSkillDto build() {
-                return new StudentSkillDto(id, skillId, skillName, category, selfDeclaredScore, assessmentScore, evidenceScore, verifiedScore, verificationStatus, lastVerifiedAt, evidenceList);
+                return new StudentSkillDto(id, skillId, skillName, category, selfDeclaredScore, assessmentScore, mcqAssessmentWebsiteScore, evidenceScore, verifiedScore, verificationStatus, lastVerifiedAt, evidenceList);
             }
         }
 
@@ -226,6 +230,8 @@ public class SkillDtos {
         public void setSelfDeclaredScore(Integer selfDeclaredScore) { this.selfDeclaredScore = selfDeclaredScore; }
         public Integer getAssessmentScore() { return assessmentScore; }
         public void setAssessmentScore(Integer assessmentScore) { this.assessmentScore = assessmentScore; }
+        public Integer getMcqAssessmentWebsiteScore() { return mcqAssessmentWebsiteScore; }
+        public void setMcqAssessmentWebsiteScore(Integer mcqAssessmentWebsiteScore) { this.mcqAssessmentWebsiteScore = mcqAssessmentWebsiteScore; }
         public Integer getEvidenceScore() { return evidenceScore; }
         public void setEvidenceScore(Integer evidenceScore) { this.evidenceScore = evidenceScore; }
         public Integer getVerifiedScore() { return verifiedScore; }

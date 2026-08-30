@@ -4,6 +4,7 @@ import com.skillintel.platform.dto.AssessmentDtos.*;
 import com.skillintel.platform.service.AssessmentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/assessments")
@@ -32,5 +33,17 @@ public class AssessmentController {
             @RequestBody AssessmentSubmitDto submitDto) {
         submitDto.setAssessmentId(id);
         return ResponseEntity.ok(assessmentService.submitAssessment(studentProfileId, submitDto));
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<AssessmentSummaryDto>> getAllAssessments() {
+        return ResponseEntity.ok(assessmentService.getAllAssessments());
+    }
+
+    @PostMapping("/{id}/questions")
+    public ResponseEntity<QuestionDto> addQuestionToAssessment(
+            @PathVariable Long id,
+            @RequestBody CreateQuestionDto createDto) {
+        return ResponseEntity.ok(assessmentService.addQuestionToAssessment(id, createDto));
     }
 }

@@ -108,14 +108,24 @@ export const IndustryCandidateSearchPage: React.FC = () => {
                   </div>
                 </div>
 
-                {/* View Evidence Action */}
-                <button
-                  onClick={() => handleViewEvidence(cand.studentId)}
-                  className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-bold text-xs transition"
-                >
-                  <Eye className="w-4 h-4 text-emerald-400" />
-                  <span>Inspect Verified Skill Evidence</span>
-                </button>
+                {/* View Evidence & Passport Actions */}
+                <div className="space-y-2">
+                  <button
+                    onClick={() => handleViewEvidence(cand.studentId)}
+                    className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 font-bold text-xs transition"
+                  >
+                    <Eye className="w-4 h-4 text-emerald-400" />
+                    <span>Inspect Verified Skill Evidence</span>
+                  </button>
+
+                  <a
+                    href="/student/skill-passport"
+                    className="w-full flex items-center justify-center space-x-2 py-2.5 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 font-bold text-xs transition"
+                  >
+                    <Sparkles className="w-4 h-4 text-blue-400" />
+                    <span>View Full Skill Passport</span>
+                  </a>
+                </div>
 
               </div>
             ))}

@@ -255,4 +255,59 @@ public class AssessmentDtos {
         public String getExplanation() { return explanation; }
         public void setExplanation(String explanation) { this.explanation = explanation; }
     }
+
+    public static class CreateQuestionDto {
+        private Long skillId;
+        private String questionText;
+        private QuestionType type;
+        private String codeSnippet;
+        private List<String> options;
+        private String correctAnswer;
+        private String explanation;
+
+        public CreateQuestionDto() {}
+
+        public Long getSkillId() { return skillId; }
+        public void setSkillId(Long skillId) { this.skillId = skillId; }
+        public String getQuestionText() { return questionText; }
+        public void setQuestionText(String questionText) { this.questionText = questionText; }
+        public QuestionType getType() { return type; }
+        public void setType(QuestionType type) { this.type = type; }
+        public String getCodeSnippet() { return codeSnippet; }
+        public void setCodeSnippet(String codeSnippet) { this.codeSnippet = codeSnippet; }
+        public List<String> getOptions() { return options; }
+        public void setOptions(List<String> options) { this.options = options; }
+        public String getCorrectAnswer() { return correctAnswer; }
+        public void setCorrectAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
+        public String getExplanation() { return explanation; }
+        public void setExplanation(String explanation) { this.explanation = explanation; }
+    }
+
+    public static class AssessmentSummaryDto {
+        private Long id;
+        private String title;
+        private String targetRoleName;
+        private Integer durationMinutes;
+        private Integer totalQuestions;
+
+        public AssessmentSummaryDto() {}
+        public AssessmentSummaryDto(Long id, String title, String targetRoleName, Integer durationMinutes, Integer totalQuestions) {
+            this.id = id;
+            this.title = title;
+            this.targetRoleName = targetRoleName;
+            this.durationMinutes = durationMinutes;
+            this.totalQuestions = totalQuestions;
+        }
+
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
+        public String getTitle() { return title; }
+        public void setTitle(String title) { this.title = title; }
+        public String getTargetRoleName() { return targetRoleName; }
+        public void setTargetRoleName(String targetRoleName) { this.targetRoleName = targetRoleName; }
+        public Integer getDurationMinutes() { return durationMinutes; }
+        public void setDurationMinutes(Integer durationMinutes) { this.durationMinutes = durationMinutes; }
+        public Integer getTotalQuestions() { return totalQuestions; }
+        public void setTotalQuestions(Integer totalQuestions) { this.totalQuestions = totalQuestions; }
+    }
 }

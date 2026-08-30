@@ -195,12 +195,18 @@ export const fetchSkillPassport = async (studentId: number = 1): Promise<SkillPa
       lastUpdatedAt: new Date().toISOString(),
       skills: [
         {
-          id: 1, skillId: 1, skillName: "Java", category: "Programming", selfDeclaredScore: 80, assessmentScore: 85, evidenceScore: 90, verifiedScore: 88, verificationStatus: "VERIFIED", lastVerifiedAt: new Date().toISOString(),
-          evidenceList: [{ id: 101, source: "ASSESSMENT", score: 85, weight: 0.40, details: "Skill Assessment score: 85/100", createdAt: new Date().toISOString() }]
+          id: 1, skillId: 1, skillName: "Java", category: "Programming", selfDeclaredScore: 80, assessmentScore: 85, mcqAssessmentWebsiteScore: 85, evidenceScore: 90, verifiedScore: 88, verificationStatus: "VERIFIED", lastVerifiedAt: new Date().toISOString(),
+          evidenceList: [
+            { id: 101, source: "ASSESSMENT", score: 85, weight: 0.40, details: "Skill Assessment score: 85/100", createdAt: new Date().toISOString() },
+            { id: 102, source: "MCQ_ASSESSMENT_WEBSITE", score: 85, weight: 0.40, details: "MCQ Assessment Website evaluation score: 85/100", createdAt: new Date().toISOString() }
+          ]
         },
         {
-          id: 2, skillId: 2, skillName: "Spring Boot", category: "Backend", selfDeclaredScore: 70, assessmentScore: 60, evidenceScore: 82, verifiedScore: 82, verificationStatus: "VERIFIED", lastVerifiedAt: new Date().toISOString(),
-          evidenceList: [{ id: 105, source: "ASSESSMENT", score: 60, weight: 0.40, details: "Skill Assessment score: 60/100", createdAt: new Date().toISOString() }]
+          id: 2, skillId: 2, skillName: "Spring Boot", category: "Backend", selfDeclaredScore: 70, assessmentScore: 60, mcqAssessmentWebsiteScore: 60, evidenceScore: 82, verifiedScore: 82, verificationStatus: "VERIFIED", lastVerifiedAt: new Date().toISOString(),
+          evidenceList: [
+            { id: 105, source: "ASSESSMENT", score: 60, weight: 0.40, details: "Skill Assessment score: 60/100", createdAt: new Date().toISOString() },
+            { id: 106, source: "MCQ_ASSESSMENT_WEBSITE", score: 60, weight: 0.40, details: "MCQ Assessment Website evaluation score: 60/100", createdAt: new Date().toISOString() }
+          ]
         }
       ]
     };
@@ -837,6 +843,31 @@ export const fetchInstitutionCurriculum = async (id: number = 1): Promise<Curric
   }
 };
 
+
+export const fetchAssessments = async (): Promise<any[]> => {
+  try {
+    const { data } = await api.get('/assessments');
+    return data;
+  } catch (e) {
+    return [
+      {
+        id: 1,
+        title: "Software Engineering Core MCQ",
+        targetRoleName: "Software Engineer",
+        durationMinutes: 45,
+        totalQuestions: 15
+      },
+      {
+        id: 2,
+        title: "Frontend Development Essentials",
+        targetRoleName: "Frontend Developer",
+        durationMinutes: 30,
+        totalQuestions: 10
+      }
+    ];
+  }
+};
+
 // Target Role & 4-Source Skill Evidence Verification APIs
 export const fetchTargetRoles = async (): Promise<TargetRoleBenchmark[]> => {
   try {
@@ -884,6 +915,41 @@ export const fetchTargetRoles = async (): Promise<TargetRoleBenchmark[]> => {
   }
 };
 
+
+export const fetchAssessmentById = async (id: number): Promise<Assessment> => {
+  try {
+    const { data } = await api.get(`/assessments/${id}`);
+    return data;
+  } catch (e) {
+    return {
+      id: id,
+      title: "Software Engineering Core MCQ",
+      targetRoleId: 1,
+      targetRoleName: "Software Engineer",
+      durationMinutes: 45,
+      totalQuestions: 2,
+      questions: [
+        {
+          id: 101,
+          skillId: 1,
+          skillName: "Java",
+          questionText: "What is the size of an int in Java?",
+          type: "MCQ",
+          options: ["16 bits", "32 bits", "64 bits", "Depends on OS"]
+        },
+        {
+          id: 102,
+          skillId: 2,
+          skillName: "Spring Boot",
+          questionText: "Which annotation is used to mark a class as a Spring Boot application?",
+          type: "MCQ",
+          options: ["@SpringBoot", "@EnableAutoConfiguration", "@SpringBootApplication", "@SpringApplication"]
+        }
+      ]
+    };
+  }
+};
+
 export const submitMultiSourceEvidence = async (
   studentId: number = 1,
   skillId: number,
@@ -904,8 +970,15 @@ export const submitMultiSourceEvidence = async (
     return {
       verifiedScore: Math.min(100, score + 5),
       confidenceScore: 92
+
     };
   }
+};
+
+
+export const addQuestionToAssessment = async (assessmentId: number, questionDto: any): Promise<any> => {
+  const { data } = await api.post(`/assessments/${assessmentId}/questions`, questionDto);
+  return data;
 };
 
 export const createCustomSkill = async (skillData: { name: string; category: string; description: string }): Promise<{ id: number; name: string; category: string }> => {
@@ -937,4 +1010,5 @@ export const fetchSkillsList = async (): Promise<Array<{ id: number; name: strin
       { id: 8, name: 'Apache Kafka', category: 'Distributed Systems' }
     ];
   }
+
 };

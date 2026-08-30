@@ -8,5 +8,6 @@ public enum EvidenceSource {
     PROJECT,
     CERTIFICATE,
     MENTOR,
-    INSTITUTION
+    INSTITUTION,
+    MCQ_ASSESSMENT_WEBSITE
 }
