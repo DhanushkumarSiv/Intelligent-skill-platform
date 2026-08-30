@@ -406,21 +406,33 @@ export const createOpportunity = async (oppData: any): Promise<Opportunity> => {
 };
 
 export const applyForOpportunity = async (opportunityId: number, coverNote: string = '', studentId: number = 1): Promise<Application> => {
+  const targetOpp = mockOpportunities.find(o => o.id === opportunityId) || mockOpportunities[0];
+  const newApp: Application = {
+    id: Date.now(),
+    opportunityId,
+    opportunityTitle: targetOpp.title,
+    companyName: targetOpp.company.name,
+    studentProfileId: studentId,
+    studentName: "Alex Chen",
+    status: "APPLIED",
+    appliedAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
+    coverNote: coverNote || "Enthusiastic candidate with verified AST Java & Spring Boot skills."
+  };
+
+  // Save locally for real-time Industry persona reflection
+  try {
+    const existing = JSON.parse(localStorage.getItem('skillintel_submitted_applications') || '[]');
+    existing.unshift(newApp);
+    localStorage.setItem('skillintel_submitted_applications', JSON.stringify(existing));
+  } catch (e) {
+    // Ignore storage quota
+  }
+
   try {
     const res = await api.post<Application>(`/applications?studentProfileId=${studentId}&opportunityId=${opportunityId}&coverNote=${encodeURIComponent(coverNote)}`);
     return res.data;
   } catch (err) {
-    return {
-      id: 201,
-      opportunityId,
-      opportunityTitle: "Junior Java Backend Engineer",
-      companyName: "VMware / Broadcom",
-      studentProfileId: studentId,
-      studentName: "Alex Chen",
-      status: "APPLIED",
-      appliedAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
-      coverNote
-    };
+    return newApp;
   }
 };
 
@@ -429,7 +441,8 @@ export const fetchStudentApplications = async (studentId: number = 1): Promise<A
     const res = await api.get<Application[]>(`/applications/student/${studentId}`);
     return res.data;
   } catch (err) {
-    return mockApplications;
+    const saved = JSON.parse(localStorage.getItem('skillintel_submitted_applications') || '[]');
+    return saved.length > 0 ? saved : mockApplications;
   }
 };
 
@@ -824,3 +837,104 @@ export const fetchInstitutionCurriculum = async (id: number = 1): Promise<Curric
   }
 };
 
+// Target Role & 4-Source Skill Evidence Verification APIs
+export const fetchTargetRoles = async (): Promise<TargetRoleBenchmark[]> => {
+  try {
+    const res = await api.get<TargetRoleBenchmark[]>('/target-roles');
+    return res.data;
+  } catch (e) {
+    return [
+      {
+        id: 1,
+        name: 'Backend Java Developer',
+        category: 'Backend',
+        description: 'Build microservices, REST APIs, and database engines.',
+        requiredSkills: [
+          { skillId: 1, skillName: 'Java', category: 'Programming', minimumScore: 85, importanceScore: 90, currentStudentScore: 78, gapPercentage: 7, status: 'VERIFIED' },
+          { skillId: 2, skillName: 'Spring Boot', category: 'Backend', minimumScore: 80, importanceScore: 85, currentStudentScore: 62, gapPercentage: 18, status: 'NEEDS_VERIFICATION' },
+          { skillId: 3, skillName: 'SQL / PostgreSQL', category: 'Database', minimumScore: 75, importanceScore: 80, currentStudentScore: 75, gapPercentage: 0, status: 'VERIFIED' },
+          { skillId: 5, skillName: 'Docker & Containers', category: 'DevOps', minimumScore: 70, importanceScore: 75, currentStudentScore: 40, gapPercentage: 30, status: 'CRITICAL_GAP' }
+        ]
+      },
+      {
+        id: 2,
+        name: 'AI & Machine Learning Engineer',
+        category: 'AI/ML',
+        description: 'Train neural networks, deep learning models, and computer vision pipelines.',
+        requiredSkills: [
+          { skillId: 6, skillName: 'AI/ML', category: 'AI/ML', minimumScore: 90, importanceScore: 95, currentStudentScore: 55, gapPercentage: 35, status: 'CRITICAL_GAP' },
+          { skillId: 1, skillName: 'Java / Python', category: 'Programming', minimumScore: 80, importanceScore: 85, currentStudentScore: 78, gapPercentage: 2, status: 'VERIFIED' },
+          { skillId: 4, skillName: 'Cloud Architecture', category: 'Cloud', minimumScore: 75, importanceScore: 80, currentStudentScore: 45, gapPercentage: 30, status: 'NEEDS_VERIFICATION' },
+          { skillId: 3, skillName: 'SQL / PostgreSQL', category: 'Database', minimumScore: 70, importanceScore: 75, currentStudentScore: 75, gapPercentage: 0, status: 'VERIFIED' }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Cloud Solutions Architect',
+        category: 'Cloud',
+        description: 'Design distributed multi-region AWS/GCP cloud infrastructure.',
+        requiredSkills: [
+          { skillId: 4, skillName: 'Cloud Architecture', category: 'Cloud', minimumScore: 90, importanceScore: 95, currentStudentScore: 45, gapPercentage: 45, status: 'CRITICAL_GAP' },
+          { skillId: 5, skillName: 'Docker & Containers', category: 'DevOps', minimumScore: 85, importanceScore: 90, currentStudentScore: 40, gapPercentage: 45, status: 'CRITICAL_GAP' },
+          { skillId: 7, skillName: 'Cybersecurity', category: 'Security', minimumScore: 80, importanceScore: 85, currentStudentScore: 50, gapPercentage: 30, status: 'NEEDS_VERIFICATION' },
+          { skillId: 2, skillName: 'Spring Boot', category: 'Backend', minimumScore: 75, importanceScore: 80, currentStudentScore: 62, gapPercentage: 13, status: 'NEEDS_VERIFICATION' }
+        ]
+      }
+    ];
+  }
+};
+
+export const submitMultiSourceEvidence = async (
+  studentId: number = 1,
+  skillId: number,
+  sourceType: 'AST_CODE_ANALYSIS' | 'CERTIFICATE' | 'ASSESSMENT' | 'MENTOR_FEEDBACK',
+  score: number,
+  details: string
+): Promise<{ verifiedScore: number; confidenceScore: number }> => {
+  try {
+    const res = await api.post('/passports/evidence', {
+      studentId,
+      skillId,
+      sourceType,
+      score,
+      details
+    });
+    return res.data;
+  } catch (e) {
+    return {
+      verifiedScore: Math.min(100, score + 5),
+      confidenceScore: 92
+    };
+  }
+};
+
+export const createCustomSkill = async (skillData: { name: string; category: string; description: string }): Promise<{ id: number; name: string; category: string }> => {
+  try {
+    const res = await api.post<{ id: number; name: string; category: string }>('/skills', skillData);
+    return res.data;
+  } catch (e) {
+    return {
+      id: Date.now(),
+      name: skillData.name,
+      category: skillData.category
+    };
+  }
+};
+
+export const fetchSkillsList = async (): Promise<Array<{ id: number; name: string; category: string; description?: string }>> => {
+  try {
+    const res = await api.get('/skills');
+    return res.data;
+  } catch (e) {
+    return [
+      { id: 1, name: 'Java', category: 'Programming' },
+      { id: 2, name: 'Spring Boot', category: 'Backend' },
+      { id: 3, name: 'SQL / PostgreSQL', category: 'Database' },
+      { id: 4, name: 'AWS Cloud Architecture', category: 'Cloud' },
+      { id: 5, name: 'Docker & Containers', category: 'DevOps' },
+      { id: 6, name: 'AI/ML & PyTorch', category: 'AI/ML' },
+      { id: 7, name: 'Cybersecurity', category: 'Security' },
+      { id: 8, name: 'Apache Kafka', category: 'Distributed Systems' }
+    ];
+  }
+};

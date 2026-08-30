@@ -336,3 +336,25 @@ export interface CurriculumInsight {
   recommendation: string;
 }
 
+// Student Target Role & 4-Source Evidence Types
+export interface TargetRoleBenchmark {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  iconName?: string;
+  requiredSkills: RequiredSkillBenchmark[];
+}
+
+export interface RequiredSkillBenchmark {
+  skillId: number;
+  skillName: string;
+  category: string;
+  minimumScore: number;
+  importanceScore: number;
+  currentStudentScore: number;
+  gapPercentage: number;
+  status: 'VERIFIED' | 'NEEDS_VERIFICATION' | 'CRITICAL_GAP';
+}
+
+

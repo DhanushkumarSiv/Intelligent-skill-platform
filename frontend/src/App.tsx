@@ -26,6 +26,7 @@ import { IndustryMentorsPage } from './pages/IndustryMentorsPage';
 import { StudentMentorshipPage } from './pages/StudentMentorshipPage';
 import { StudentCollaborationsPage } from './pages/StudentCollaborationsPage';
 import { StudentInternshipsPage } from './pages/StudentInternshipsPage';
+import { StudentRoleSelectionPage } from './pages/StudentRoleSelectionPage';
 import { InstitutionDashboardPage } from './pages/InstitutionDashboardPage';
 import { InstitutionSkillGapsPage } from './pages/InstitutionSkillGapsPage';
 import { InstitutionDemandPage } from './pages/InstitutionDemandPage';
@@ -49,6 +50,7 @@ export const App: React.FC = () => {
               
               {/* Student Persona Routes - Protected for STUDENT */}
               <Route path="/student/skill-passport" element={<ProtectedRoute allowedRoles={['STUDENT']}><SkillPassportPage /></ProtectedRoute>} />
+              <Route path="/student/target-role" element={<ProtectedRoute allowedRoles={['STUDENT']}><StudentRoleSelectionPage /></ProtectedRoute>} />
               <Route path="/student/skills" element={<ProtectedRoute allowedRoles={['STUDENT']}><SkillsPage /></ProtectedRoute>} />
               <Route path="/student/skill-gaps" element={<ProtectedRoute allowedRoles={['STUDENT']}><SkillGapsPage /></ProtectedRoute>} />
               <Route path="/student/learning" element={<ProtectedRoute allowedRoles={['STUDENT']}><LearningPage /></ProtectedRoute>} />

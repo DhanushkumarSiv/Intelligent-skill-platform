@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Award, Briefcase, BookOpen, Sparkles, ShieldCheck, GraduationCap, Building2, Users, BarChart3, TrendingUp, LogOut, UserCheck, ChevronDown } from 'lucide-react';
+import { Award, Briefcase, BookOpen, Sparkles, ShieldCheck, GraduationCap, Building2, Users, BarChart3, TrendingUp, LogOut, UserCheck, ChevronDown, Target } from 'lucide-react';
 import { User } from '../types';
 
 export const Navbar: React.FC = () => {
@@ -152,6 +152,10 @@ export const Navbar: React.FC = () => {
                 <NavLink to="/student/skill-passport" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition flex items-center space-x-1.5 ${isActive ? 'bg-slate-800 text-emerald-400' : 'text-slate-400 hover:text-slate-200'}`}>
                   <Award className="w-3.5 h-3.5" />
                   <span>Skill Passport</span>
+                </NavLink>
+                <NavLink to="/student/target-role" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition flex items-center space-x-1.5 ${isActive ? 'bg-slate-800 text-emerald-400' : 'text-slate-400 hover:text-slate-200'}`}>
+                  <Target className="w-3.5 h-3.5" />
+                  <span>Target Role & Proof</span>
                 </NavLink>
                 <NavLink to="/student/skills" className={({ isActive }) => `px-3 py-1.5 rounded-lg font-semibold transition ${isActive ? 'bg-slate-800 text-emerald-400' : 'text-slate-400 hover:text-slate-200'}`}>
                   <span>Verified Skills</span>
