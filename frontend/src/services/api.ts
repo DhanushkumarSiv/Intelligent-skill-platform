@@ -14,6 +14,14 @@ export const api = axios.create({
   },
 });
 
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('skillintel_token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => Promise.reject(error));
+
 // Demo Fallbacks for Module 1, 2, 3
 const mockCompanies: Company[] = [
   { id: 1, name: "VMware / Broadcom", industry: "Enterprise Cloud & Virtualization", description: "Multi-cloud software company powering global enterprise digital infrastructure.", website: "https://vmware.com", location: "Bangalore, India", verified: true },
@@ -689,3 +697,130 @@ export const completeInternship = async (id: number, completionStatus: string = 
     };
   }
 };
+
+// Module 5 API Calls
+export const fetchInstitutionDashboard = async (id: number = 1): Promise<InstitutionDashboard> => {
+  try {
+    const res = await api.get<InstitutionDashboard>(`/institutions/${id}/dashboard`);
+    return res.data;
+  } catch (e) {
+    return {
+      institutionId: 1,
+      institutionName: 'National Institute of Technology',
+      totalStudents: 1250,
+      assessedStudents: 1040,
+      placementReadyStudents: 720,
+      internshipStudents: 380,
+      placedStudents: 640
+    };
+  }
+};
+
+export const fetchInstitutionSkillGaps = async (id: number = 1, department?: string, year?: number): Promise<SkillGapAnalyticsItem[]> => {
+  try {
+    const res = await api.get<SkillGapAnalyticsItem[]>(`/institutions/${id}/skill-gaps`, { params: { department, year } });
+    return res.data;
+  } catch (e) {
+    return [
+      { skillName: 'Cloud Architecture', category: 'Cloud', gapPercentage: 48, avgStudentScore: 42, requiredBenchmark: 90 },
+      { skillName: 'Docker & Containers', category: 'DevOps', gapPercentage: 44, avgStudentScore: 36, requiredBenchmark: 80 },
+      { skillName: 'AI/ML & Vision', category: 'AI/ML', gapPercentage: 39, avgStudentScore: 51, requiredBenchmark: 90 },
+      { skillName: 'Cybersecurity', category: 'Security', gapPercentage: 35, avgStudentScore: 45, requiredBenchmark: 80 },
+      { skillName: 'Technical Communication', category: 'Soft Skills', gapPercentage: 31, avgStudentScore: 64, requiredBenchmark: 95 }
+    ];
+  }
+};
+
+export const fetchInstitutionDemand = async (id: number = 1): Promise<IndustryDemandItem[]> => {
+  try {
+    const res = await api.get<IndustryDemandItem[]>(`/institutions/${id}/industry-demand`);
+    return res.data;
+  } catch (e) {
+    return [
+      { skillName: 'Java', category: 'Programming', demandCount: 420, demandPercentage: 85, trendIndicator: 'UP' },
+      { skillName: 'Spring Boot', category: 'Backend', demandCount: 380, demandPercentage: 78, trendIndicator: 'UP' },
+      { skillName: 'Cloud Architecture', category: 'Cloud', demandCount: 350, demandPercentage: 72, trendIndicator: 'UP' },
+      { skillName: 'SQL / PostgreSQL', category: 'Database', demandCount: 310, demandPercentage: 64, trendIndicator: 'STABLE' },
+      { skillName: 'Docker', category: 'DevOps', demandCount: 290, demandPercentage: 60, trendIndicator: 'UP' }
+    ];
+  }
+};
+
+export const fetchInstitutionGapDemand = async (id: number = 1): Promise<GapDemandMatrixItem[]> => {
+  try {
+    const res = await api.get<GapDemandMatrixItem[]>(`/institutions/${id}/gap-demand-matrix`);
+    return res.data;
+  } catch (e) {
+    return [
+      { skillName: 'Java', industryDemandLevel: 'HIGH', studentProficiencyLevel: 'HIGH', gapLevel: 'LOW', recommendedAction: 'MAINTAIN' },
+      { skillName: 'Cloud Architecture', industryDemandLevel: 'VERY_HIGH', studentProficiencyLevel: 'LOW', gapLevel: 'HIGH', recommendedAction: 'URGENT' },
+      { skillName: 'AI/ML', industryDemandLevel: 'HIGH', studentProficiencyLevel: 'MEDIUM', gapLevel: 'MEDIUM', recommendedAction: 'IMPROVE' },
+      { skillName: 'Docker & Containers', industryDemandLevel: 'HIGH', studentProficiencyLevel: 'LOW', gapLevel: 'HIGH', recommendedAction: 'URGENT' },
+      { skillName: 'SQL Database', industryDemandLevel: 'MEDIUM', studentProficiencyLevel: 'HIGH', gapLevel: 'LOW', recommendedAction: 'MAINTAIN' }
+    ];
+  }
+};
+
+export const fetchInstitutionDepartments = async (id: number = 1): Promise<DepartmentComparison[]> => {
+  try {
+    const res = await api.get<DepartmentComparison[]>(`/institutions/${id}/departments`);
+    return res.data;
+  } catch (e) {
+    return [
+      { departmentName: 'Computer Science & Engineering (CSE)', avgSkillScore: 82, placementReadinessPercentage: 76, assessmentParticipationPercentage: 92, internshipParticipationPercentage: 48, topSkillGap: 'Cloud Architecture' },
+      { departmentName: 'Information Technology (IT)', avgSkillScore: 77, placementReadinessPercentage: 70, assessmentParticipationPercentage: 88, internshipParticipationPercentage: 42, topSkillGap: 'Docker & Containers' },
+      { departmentName: 'Electronics & Communication (ECE)', avgSkillScore: 68, placementReadinessPercentage: 58, assessmentParticipationPercentage: 79, internshipParticipationPercentage: 32, topSkillGap: 'Java & Microservices' }
+    ];
+  }
+};
+
+export const fetchInstitutionPlacements = async (id: number = 1): Promise<PlacementFunnelAnalytics> => {
+  try {
+    const res = await api.get<PlacementFunnelAnalytics>(`/institutions/${id}/placement-analytics`);
+    return res.data;
+  } catch (e) {
+    return {
+      eligibleCount: 950,
+      appliedCount: 880,
+      shortlistedCount: 540,
+      interviewedCount: 420,
+      selectedCount: 320,
+      applicationRate: 92,
+      shortlistRate: 61,
+      selectionRate: 76,
+      placementReadinessRate: 72
+    };
+  }
+};
+
+export const fetchInstitutionCurriculum = async (id: number = 1): Promise<CurriculumInsight[]> => {
+  try {
+    const res = await api.get<CurriculumInsight[]>(`/institutions/${id}/curriculum-insights`);
+    return res.data;
+  } catch (e) {
+    return [
+      {
+        skillName: 'Cloud Architecture',
+        demandLevel: 'VERY_HIGH',
+        studentProficiency: 'LOW',
+        actionType: 'WORKSHOP',
+        recommendation: '⚠️ Introduce AWS/GCP Cloud Architecture Workshop for 3rd Year CSE/IT students immediately.'
+      },
+      {
+        skillName: 'Docker & Kubernetes',
+        demandLevel: 'HIGH',
+        studentProficiency: 'LOW',
+        actionType: 'ELECTIVE',
+        recommendation: '⚠️ Add "Containerization & DevOps Engineering" as an open elective for Semester 6.'
+      },
+      {
+        skillName: 'AI/ML Healthcare',
+        demandLevel: 'HIGH',
+        studentProficiency: 'MEDIUM',
+        actionType: 'FDP',
+        recommendation: 'Organize Faculty Development Program (FDP) on Applied Deep Learning in Healthcare.'
+      }
+    ];
+  }
+};
+

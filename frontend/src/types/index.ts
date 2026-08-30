@@ -271,3 +271,68 @@ export interface Internship {
   status: 'ONGOING' | 'COMPLETED' | 'TERMINATED';
   completionStatus?: string;
 }
+
+// Module 5 Institutional Intelligence Types
+export interface InstitutionDashboard {
+  institutionId: number;
+  institutionName: string;
+  totalStudents: number;
+  assessedStudents: number;
+  placementReadyStudents: number;
+  internshipStudents: number;
+  placedStudents: number;
+}
+
+export interface SkillGapAnalyticsItem {
+  skillName: string;
+  category: string;
+  gapPercentage: number;
+  avgStudentScore: number;
+  requiredBenchmark: number;
+}
+
+export interface IndustryDemandItem {
+  skillName: string;
+  category: string;
+  demandCount: number;
+  demandPercentage: number;
+  trendIndicator: 'UP' | 'STABLE' | 'DOWN';
+}
+
+export interface GapDemandMatrixItem {
+  skillName: string;
+  industryDemandLevel: 'VERY_HIGH' | 'HIGH' | 'MEDIUM';
+  studentProficiencyLevel: 'LOW' | 'MEDIUM' | 'HIGH';
+  gapLevel: 'HIGH' | 'MEDIUM' | 'LOW';
+  recommendedAction: 'URGENT' | 'IMPROVE' | 'MAINTAIN';
+}
+
+export interface DepartmentComparison {
+  departmentName: string;
+  avgSkillScore: number;
+  placementReadinessPercentage: number;
+  assessmentParticipationPercentage: number;
+  internshipParticipationPercentage: number;
+  topSkillGap: string;
+}
+
+export interface PlacementFunnelAnalytics {
+  eligibleCount: number;
+  appliedCount: number;
+  shortlistedCount: number;
+  interviewedCount: number;
+  selectedCount: number;
+  applicationRate: number;
+  shortlistRate: number;
+  selectionRate: number;
+  placementReadinessRate: number;
+}
+
+export interface CurriculumInsight {
+  skillName: string;
+  demandLevel: string;
+  studentProficiency: string;
+  actionType: 'WORKSHOP' | 'ELECTIVE' | 'FDP' | 'CERTIFICATION';
+  recommendation: string;
+}
+

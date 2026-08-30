@@ -8,6 +8,7 @@ C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\co
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\controller\FacultyController.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\controller\GitHubController.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\controller\IndustryCandidateController.java
+C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\controller\InstitutionalAnalyticsController.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\controller\InternshipController.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\controller\LearningPathController.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\controller\MentorController.java
@@ -61,6 +62,7 @@ C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\co
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\dto\CertificateDtos.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\dto\CollaborationDtos.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\dto\GitHubDtos.java
+C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\dto\InstitutionalDtos.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\dto\LearningDtos.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\dto\OpportunityDtos.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\dto\ProjectDtos.java
@@ -98,6 +100,7 @@ C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\co
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\security\SecurityConfig.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\seed\DataSeeder.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\service\AiLearningPathService.java
+C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\service\AnalyticsService.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\service\ApplicationService.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\service\AssessmentService.java
 C:\Users\admin\Downloads\SIH\Intelligent-skill-platform\backend\src\main\java\com\skillintel\platform\service\AstAnalysisService.java

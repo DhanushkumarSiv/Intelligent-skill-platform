@@ -28,16 +28,19 @@ com\skillintel\platform\repository\CourseRepository.class
 com\skillintel\platform\domain\Collaboration$Builder.class
 com\skillintel\platform\domain\StudentProfile$Builder.class
 com\skillintel\platform\controller\FacultyController.class
+com\skillintel\platform\dto\InstitutionalDtos$GapDemandMatrixItemDto$Builder.class
 com\skillintel\platform\domain\MentorFeedback.class
 com\skillintel\platform\dto\LearningDtos.class
 com\skillintel\platform\repository\StudentProfileRepository.class
 com\skillintel\platform\domain\ProjectEvidence$Builder.class
+com\skillintel\platform\dto\InstitutionalDtos$SkillGapAnalyticsItemDto$Builder.class
 com\skillintel\platform\repository\OpportunityRepository.class
 com\skillintel\platform\dto\SkillDtos$SkillEvidenceDto.class
 com\skillintel\platform\domain\CollaborationSkill$Builder.class
 com\skillintel\platform\dto\OpportunityDtos$JobDescriptionParseRequestDto.class
 com\skillintel\platform\service\ApplicationService.class
 com\skillintel\platform\dto\CollaborationDtos$InternshipDto.class
+com\skillintel\platform\dto\InstitutionalDtos$PlacementFunnelAnalyticsDto.class
 com\skillintel\platform\controller\LearningPathController.class
 com\skillintel\platform\dto\ProjectDtos.class
 com\skillintel\platform\controller\MentorController.class
@@ -47,6 +50,7 @@ com\skillintel\platform\domain\StudentAssessmentAnswer$Builder.class
 com\skillintel\platform\domain\enums\PriorityLevel.class
 com\skillintel\platform\controller\CourseController.class
 com\skillintel\platform\dto\AuthDtos.class
+com\skillintel\platform\dto\InstitutionalDtos$SkillGapAnalyticsItemDto.class
 com\skillintel\platform\dto\OpportunityDtos$SkillMatchDetailDto$Builder.class
 com\skillintel\platform\dto\CollaborationDtos$MentorDto.class
 com\skillintel\platform\domain\Collaboration.class
@@ -85,6 +89,7 @@ com\skillintel\platform\domain\ProjectEvidence.class
 com\skillintel\platform\domain\RoleSkill.class
 com\skillintel\platform\service\SkillService.class
 com\skillintel\platform\controller\ProjectController.class
+com\skillintel\platform\dto\InstitutionalDtos$InstitutionDashboardDto.class
 com\skillintel\platform\controller\CertificateController.class
 com\skillintel\platform\domain\LearningProgress$Builder.class
 com\skillintel\platform\repository\AssessmentQuestionRepository.class
@@ -93,6 +98,7 @@ com\skillintel\platform\service\CertificateParsingService.class
 com\skillintel\platform\domain\enums\RoleEnum.class
 com\skillintel\platform\dto\GitHubDtos$DependencyEvidenceDto$Builder.class
 com\skillintel\platform\domain\CollaborationSkill.class
+com\skillintel\platform\dto\InstitutionalDtos.class
 com\skillintel\platform\dto\ProjectDtos$ProjectDto.class
 com\skillintel\platform\dto\AuthDtos$AuthResponse$Builder.class
 com\skillintel\platform\dto\CertificateDtos$CertificateDto$Builder.class
@@ -111,6 +117,7 @@ com\skillintel\platform\dto\LearningDtos$CourseDto.class
 com\skillintel\platform\service\RecommendationEngineService.class
 com\skillintel\platform\dto\AssessmentDtos$AssessmentResultDto.class
 com\skillintel\platform\service\FacultyMatchingService.class
+com\skillintel\platform\service\AnalyticsService.class
 com\skillintel\platform\dto\GitHubDtos$DependencyEvidenceDto.class
 com\skillintel\platform\dto\OpportunityDtos$OpportunityDto$Builder.class
 com\skillintel\platform\domain\CourseSkillMap.class
@@ -129,6 +136,7 @@ com\skillintel\platform\domain\CourseSkillMap$Builder.class
 com\skillintel\platform\controller\StudentSkillController.class
 com\skillintel\platform\domain\Mentorship.class
 com\skillintel\platform\service\LearningService.class
+com\skillintel\platform\dto\InstitutionalDtos$CurriculumInsightDto.class
 com\skillintel\platform\security\JwtTokenProvider.class
 com\skillintel\platform\dto\SkillDtos$SkillPassportDto$Builder.class
 com\skillintel\platform\dto\LearningDtos$LearningProgressDto.class
@@ -148,7 +156,9 @@ com\skillintel\platform\repository\InternshipRepository.class
 com\skillintel\platform\dto\LearningDtos$GapAnalysisResultDto$Builder.class
 com\skillintel\platform\dto\SkillDtos$RoleSkillDto$Builder.class
 com\skillintel\platform\domain\Opportunity.class
+com\skillintel\platform\dto\InstitutionalDtos$InstitutionDashboardDto$Builder.class
 com\skillintel\platform\repository\CompanyRepository.class
+com\skillintel\platform\dto\InstitutionalDtos$PlacementFunnelAnalyticsDto$Builder.class
 com\skillintel\platform\service\SkillGapService.class
 com\skillintel\platform\domain\CertificateEvidence.class
 com\skillintel\platform\dto\LearningDtos$ReassessmentResultDto.class
@@ -169,12 +179,15 @@ com\skillintel\platform\controller\SkillController.class
 com\skillintel\platform\repository\ProjectEvidenceRepository.class
 com\skillintel\platform\dto\CertificateDtos.class
 com\skillintel\platform\domain\Mentor.class
+com\skillintel\platform\dto\InstitutionalDtos$CurriculumInsightDto$Builder.class
 com\skillintel\platform\service\EligibilityEngineService.class
 com\skillintel\platform\dto\AssessmentDtos.class
 com\skillintel\platform\dto\CollaborationDtos$FacultyMatchResultDto$Builder.class
+com\skillintel\platform\dto\InstitutionalDtos$DepartmentComparisonDto$Builder.class
 com\skillintel\platform\dto\OpportunityDtos$CompanyDto.class
 com\skillintel\platform\dto\OpportunityDtos$OpportunityDto.class
 com\skillintel\platform\service\AssessmentService.class
+com\skillintel\platform\dto\InstitutionalDtos$IndustryDemandItemDto.class
 com\skillintel\platform\dto\SkillDtos$StudentSkillDto$Builder.class
 com\skillintel\platform\service\RoleService.class
 com\skillintel\platform\dto\SkillDtos$SkillDto.class
@@ -199,12 +212,14 @@ com\skillintel\platform\dto\LearningDtos$ReassessmentResultDto$Builder.class
 com\skillintel\platform\dto\GitHubDtos$AstEvidenceDto$Builder.class
 com\skillintel\platform\domain\OpportunitySkill.class
 com\skillintel\platform\dto\LearningDtos$CourseDto$Builder.class
+com\skillintel\platform\controller\InstitutionalAnalyticsController.class
 com\skillintel\platform\dto\AuthDtos$UserDto$Builder.class
 com\skillintel\platform\domain\enums\OpportunityType.class
 com\skillintel\platform\domain\Company$Builder.class
 com\skillintel\platform\controller\CollaborationController.class
 com\skillintel\platform\domain\Application.class
 com\skillintel\platform\dto\AssessmentDtos$AssessmentResultDto$Builder.class
+com\skillintel\platform\dto\InstitutionalDtos$GapDemandMatrixItemDto.class
 com\skillintel\platform\domain\Opportunity$Builder.class
 com\skillintel\platform\dto\CollaborationDtos$MentorFeedbackDto.class
 com\skillintel\platform\domain\Course$Builder.class
@@ -220,6 +235,7 @@ com\skillintel\platform\dto\SkillDtos$SkillEvidenceDto$Builder.class
 com\skillintel\platform\domain\TargetRole$Builder.class
 com\skillintel\platform\dto\LearningDtos$SkillGapDto$Builder.class
 com\skillintel\platform\dto\AssessmentDtos$AssessmentSubmitDto.class
+com\skillintel\platform\dto\InstitutionalDtos$DepartmentComparisonDto.class
 com\skillintel\platform\dto\OpportunityDtos$MatchScoreBreakdownDto.class
 com\skillintel\platform\dto\ProjectDtos$ProjectCreateRequest.class
 com\skillintel\platform\dto\CertificateDtos$CertificateDto.class
@@ -233,5 +249,6 @@ com\skillintel\platform\security\SecurityConfig.class
 com\skillintel\platform\dto\SkillDtos$RoleSkillDto.class
 com\skillintel\platform\controller\InternshipController.class
 com\skillintel\platform\domain\AssessmentQuestion.class
+com\skillintel\platform\dto\InstitutionalDtos$IndustryDemandItemDto$Builder.class
 com\skillintel\platform\domain\enums\QuestionType.class
 com\skillintel\platform\domain\SkillEvidenceRecord.class
