@@ -1,6 +1,9 @@
 package com.skillintel.platform.seed;
 
 import com.skillintel.platform.domain.*;
+import com.skillintel.platform.domain.enums.CollaborationType;
+import com.skillintel.platform.domain.enums.InternshipStatus;
+import com.skillintel.platform.domain.enums.OpportunityType;
 import com.skillintel.platform.domain.enums.QuestionType;
 import com.skillintel.platform.domain.enums.RoleEnum;
 import com.skillintel.platform.repository.*;
@@ -23,6 +26,15 @@ public class DataSeeder implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final CourseRepository courseRepository;
     private final CourseSkillMapRepository courseSkillMapRepository;
+    private final CompanyRepository companyRepository;
+    private final OpportunityRepository opportunityRepository;
+    private final OpportunitySkillRepository opportunitySkillRepository;
+    private final AcademicianRepository academicianRepository;
+    private final CollaborationRepository collaborationRepository;
+    private final CollaborationSkillRepository collaborationSkillRepository;
+    private final MentorRepository mentorRepository;
+    private final MentorshipRepository mentorshipRepository;
+    private final InternshipRepository internshipRepository;
 
     public DataSeeder(SkillRepository skillRepository,
                       TargetRoleRepository roleRepository,
@@ -34,7 +46,16 @@ public class DataSeeder implements CommandLineRunner {
                       EvidenceEngineService evidenceEngineService,
                       PasswordEncoder passwordEncoder,
                       CourseRepository courseRepository,
-                      CourseSkillMapRepository courseSkillMapRepository) {
+                      CourseSkillMapRepository courseSkillMapRepository,
+                      CompanyRepository companyRepository,
+                      OpportunityRepository opportunityRepository,
+                      OpportunitySkillRepository opportunitySkillRepository,
+                      AcademicianRepository academicianRepository,
+                      CollaborationRepository collaborationRepository,
+                      CollaborationSkillRepository collaborationSkillRepository,
+                      MentorRepository mentorRepository,
+                      MentorshipRepository mentorshipRepository,
+                      InternshipRepository internshipRepository) {
         this.skillRepository = skillRepository;
         this.roleRepository = roleRepository;
         this.roleSkillRepository = roleSkillRepository;
@@ -46,6 +67,15 @@ public class DataSeeder implements CommandLineRunner {
         this.passwordEncoder = passwordEncoder;
         this.courseRepository = courseRepository;
         this.courseSkillMapRepository = courseSkillMapRepository;
+        this.companyRepository = companyRepository;
+        this.opportunityRepository = opportunityRepository;
+        this.opportunitySkillRepository = opportunitySkillRepository;
+        this.academicianRepository = academicianRepository;
+        this.collaborationRepository = collaborationRepository;
+        this.collaborationSkillRepository = collaborationSkillRepository;
+        this.mentorRepository = mentorRepository;
+        this.mentorshipRepository = mentorshipRepository;
+        this.internshipRepository = internshipRepository;
     }
 
     @Override
@@ -182,6 +212,42 @@ public class DataSeeder implements CommandLineRunner {
         createCourseSkill(springMicro, restApi, 90);
         createCourseSkill(sqlMaster, sql, 95);
         createCourseSkill(sqlMaster, postgres, 90);
+
+        // 9. Seed Module 3 Companies & Opportunities
+        Company vmware = createCompany("VMware / Broadcom", "Enterprise Cloud & Virtualization", "Leading multi-cloud software company powering global enterprises.", "https://vmware.com", "Bangalore, India", true);
+        Company googleCloud = createCompany("Google Cloud", "AI & Cloud Infrastructure", "Global cloud computing service suite by Google.", "https://cloud.google.com", "Hyderabad / Remote", true);
+        Company razorpay = createCompany("Razorpay", "Fintech & Payments Infrastructure", "India's leading payment gateway and neo-banking platform.", "https://razorpay.com", "Bangalore, India", true);
+
+        Opportunity javaBackendJob = createOpportunity(vmware, "Junior Java Backend Engineer", OpportunityType.JOB, "Build scalable Spring Boot microservices, REST APIs, and database persistence layers.", "Bangalore / Remote", "Full-time", "₹12,00,000 / yr", 7.5, "B.Tech Computer Science / IT", "2026-10-31");
+        Opportunity devopsInternship = createOpportunity(googleCloud, "Cloud Infrastructure & DevOps Intern", OpportunityType.INTERNSHIP, "Gain hands-on experience with Docker containers, Kubernetes, CI/CD, and GCP infrastructure.", "Remote", "6 Months", "₹45,000 / mo", 7.0, "B.Tech / M.Tech CSE", "2026-09-30");
+        Opportunity microservicesApprentice = createOpportunity(razorpay, "Microservices & API Fellow", OpportunityType.APPRENTICESHIP, "Design high-throughput payment APIs, caching mechanisms, and database transactions.", "Bangalore, India", "12 Months", "₹35,00,000 / yr", 6.5, "B.Tech", "2026-11-15");
+
+        createOpportunitySkill(javaBackendJob, java, 90, 80);
+        createOpportunitySkill(javaBackendJob, springBoot, 85, 75);
+        createOpportunitySkill(javaBackendJob, sql, 80, 70);
+        createOpportunitySkill(javaBackendJob, docker, 60, 50);
+
+        createOpportunitySkill(devopsInternship, docker, 90, 60);
+        createOpportunitySkill(devopsInternship, aws, 85, 50);
+        createOpportunitySkill(devopsInternship, git, 75, 60);
+
+        createOpportunitySkill(microservicesApprentice, restApi, 95, 75);
+        createOpportunitySkill(microservicesApprentice, springBoot, 90, 75);
+        createOpportunitySkill(microservicesApprentice, sql, 85, 70);
+
+        // 10. Seed Module 4 Academia ↔ Industry Collaboration
+        User facultyUser = createUser("sarah.jenkins@nit.edu", "sarah_jenkins", "Dr. Sarah Jenkins", "password123", RoleEnum.ACADEMICIAN);
+        Academician sarahProfile = createAcademician(facultyUser, "National Institute of Technology", "Computer Science & Engineering", "Machine Learning, Computer Vision, Healthcare Analytics", "Healthcare AI, Distributed ML", "15+ High-Impact IEEE Papers", "AI Disease Diagnostics Engine", 14);
+
+        User mentorUser = createUser("marcus.vance@vmware.com", "marcus_vance", "Marcus Vance", "password123", RoleEnum.INDUSTRY);
+        Mentor marcusMentor = createMentor(mentorUser, vmware, "Senior Staff Cloud Architect", "Java, Spring Boot, Microservices, Cloud Native", "Available 4 hrs/wk", 12);
+
+        Collaboration aiProject = createCollaboration(vmware, "Healthcare AI & Computer Vision Joint Research", "Co-develop edge AI models for real-time medical imaging analysis.", CollaborationType.RESEARCH, "Looking for AI/ML faculty and postgraduate researchers.", "2026-09-01", "2027-03-31");
+        createCollaborationSkill(aiProject, java, 80);
+
+        Mentorship mentorship = createMentorship(marcusMentor, alexProfile, java, "ACTIVE");
+
+        Internship internship = createInternship(alexProfile, vmware, javaBackendJob, marcusMentor, "2026-06-01", "2026-11-30", InternshipStatus.ONGOING);
     }
 
     private Skill createSkill(String name, String category, String description, String aliases) {
@@ -258,5 +324,116 @@ public class DataSeeder implements CommandLineRunner {
                 .coverageLevel(coverageLevel)
                 .build();
         courseSkillMapRepository.save(map);
+    }
+
+    private Company createCompany(String name, String industry, String description, String website, String location, boolean verified) {
+        Company company = Company.builder()
+                .name(name)
+                .industry(industry)
+                .description(description)
+                .website(website)
+                .location(location)
+                .verified(verified)
+                .build();
+        return companyRepository.save(company);
+    }
+
+    private Opportunity createOpportunity(Company company, String title, com.skillintel.platform.domain.enums.OpportunityType type, String description, String location, String duration, String stipend, double minCgpa, String preferredDegree, String deadline) {
+        Opportunity opp = Opportunity.builder()
+                .company(company)
+                .title(title)
+                .type(type)
+                .description(description)
+                .location(location)
+                .duration(duration)
+                .stipend(stipend)
+                .minCgpa(minCgpa)
+                .preferredDegree(preferredDegree)
+                .deadline(deadline)
+                .status("OPEN")
+                .build();
+        return opportunityRepository.save(opp);
+    }
+
+    private void createOpportunitySkill(Opportunity opportunity, Skill skill, int importance, int minimumScore) {
+        OpportunitySkill oppSkill = OpportunitySkill.builder()
+                .opportunity(opportunity)
+                .skill(skill)
+                .importance(importance)
+                .minimumScore(minimumScore)
+                .build();
+        opportunitySkillRepository.save(oppSkill);
+    }
+
+    private Academician createAcademician(User user, String institution, String dept, String exp, String research, String pub, String proj, int yearsExp) {
+        Academician academician = Academician.builder()
+                .user(user)
+                .institutionName(institution)
+                .department(dept)
+                .expertise(exp)
+                .researchAreas(research)
+                .publications(pub)
+                .projects(proj)
+                .yearsExperience(yearsExp)
+                .build();
+        return academicianRepository.save(academician);
+    }
+
+    private Mentor createMentor(User user, Company company, String title, String expertise, String availability, int yearsExp) {
+        Mentor mentor = Mentor.builder()
+                .user(user)
+                .company(company)
+                .title(title)
+                .expertise(expertise)
+                .availability(availability)
+                .yearsExperience(yearsExp)
+                .build();
+        return mentorRepository.save(mentor);
+    }
+
+    private Collaboration createCollaboration(Company company, String title, String description, com.skillintel.platform.domain.enums.CollaborationType type, String reqs, String startDate, String endDate) {
+        Collaboration col = Collaboration.builder()
+                .company(company)
+                .title(title)
+                .description(description)
+                .type(type)
+                .requirements(reqs)
+                .startDate(startDate)
+                .endDate(endDate)
+                .status("OPEN")
+                .build();
+        return collaborationRepository.save(col);
+    }
+
+    private void createCollaborationSkill(Collaboration col, Skill skill, int reqLevel) {
+        CollaborationSkill cs = CollaborationSkill.builder()
+                .collaboration(col)
+                .skill(skill)
+                .requiredLevel(reqLevel)
+                .build();
+        collaborationSkillRepository.save(cs);
+    }
+
+    private Mentorship createMentorship(Mentor mentor, StudentProfile student, Skill skill, String status) {
+        Mentorship mentorship = Mentorship.builder()
+                .mentor(mentor)
+                .studentProfile(student)
+                .skill(skill)
+                .status(status)
+                .build();
+        return mentorshipRepository.save(mentorship);
+    }
+
+    private Internship createInternship(StudentProfile student, Company company, Opportunity opp, Mentor mentor, String startDate, String endDate, com.skillintel.platform.domain.enums.InternshipStatus status) {
+        Internship internship = Internship.builder()
+                .studentProfile(student)
+                .company(company)
+                .opportunity(opp)
+                .mentor(mentor)
+                .startDate(startDate)
+                .endDate(endDate)
+                .status(status)
+                .build();
+        return internshipRepository.save(internship);
     }
 }

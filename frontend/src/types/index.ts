@@ -1,146 +1,69 @@
-export type VerificationStatus = 'VERIFIED' | 'ASSESSED' | 'EVIDENCE_FOUND' | 'SELF_DECLARED' | 'REJECTED';
-export type EvidenceSource = 'ASSESSMENT' | 'GITHUB_AST' | 'GITHUB_DEPENDENCY' | 'GITHUB_GIT' | 'PROJECT' | 'CERTIFICATE' | 'MENTOR' | 'INSTITUTION';
-export type PriorityLevel = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-export type LearningStatus = 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
-
-export interface SkillEvidence {
+export interface User {
   id: number;
-  source: EvidenceSource;
-  score: number;
-  weight: number;
-  details: string;
-  createdAt: string;
+  username: string;
+  email: string;
+  fullName: string;
+  role: 'STUDENT' | 'ACADEMICIAN' | 'INDUSTRY' | 'INSTITUTION_ADMIN';
+}
+
+export interface Skill {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  parentSkillId?: number;
+  aliases?: string;
 }
 
 export interface StudentSkill {
-  id: number;
   skillId: number;
   skillName: string;
   category: string;
-  selfDeclaredScore: number;
-  assessmentScore?: number;
-  evidenceScore?: number;
   verifiedScore: number;
-  verificationStatus: VerificationStatus;
+  confidenceScore: number;
+  status: 'VERIFIED' | 'SELF_DECLARED' | 'ASSESSED';
+  evidenceCount: number;
   lastVerifiedAt: string;
-  evidenceList: SkillEvidence[];
 }
 
-export interface SkillPassport {
+export interface EvidenceRecord {
+  id: number;
+  skillName: string;
+  source: 'GITHUB' | 'ASSESSMENT' | 'CERTIFICATE' | 'MENTOR' | 'PROJECT';
+  title: string;
+  weight: number;
+  score: number;
+  verifiedAt: string;
+  metadata: string;
+}
+
+export interface DigitalSkillPassport {
   studentId: number;
   studentName: string;
-  targetRole: string;
+  email: string;
   gitHubUsername: string;
-  overallPassportScore: number;
-  totalVerifiedSkills: number;
-  skills: StudentSkill[];
-  lastUpdatedAt: string;
-}
-
-export interface Question {
-  id: number;
-  skillId: number;
-  skillName: string;
-  questionText: string;
-  type: 'MCQ' | 'CODE_OUTPUT';
-  codeSnippet?: string;
-  options: string[];
-}
-
-export interface Assessment {
-  id: number;
-  title: string;
-  targetRoleId: number;
-  targetRoleName: string;
-  durationMinutes: number;
-  totalQuestions: number;
-  questions: Question[];
-}
-
-export interface AssessmentResult {
-  studentAssessmentId: number;
   overallScore: number;
-  skillWiseScores: Record<string, number>;
-  questionFeedback: {
-    questionId: number;
-    skillName: string;
-    questionText: string;
-    selectedAnswer: string;
-    correctAnswer: string;
-    isCorrect: boolean;
-    explanation: string;
-  }[];
+  skills: StudentSkill[];
+  evidences: EvidenceRecord[];
 }
 
-export interface AstEvidence {
-  filePath: string;
-  annotationOrConstruct: string;
-  mappedSkill: string;
-  codeDepthLevel: number;
-  detail: string;
-}
-
-export interface DependencyEvidence {
-  dependencyName: string;
-  mappedSkill: string;
-  baseScore: number;
-}
-
-export interface GitHubAnalysisResult {
-  repoName: string;
-  owner: string;
-  commitCount: number;
-  contributorRatio: number;
-  detectedLanguages: string[];
-  dependencies: DependencyEvidence[];
-  astFindings: AstEvidence[];
-  skillScores: Record<string, number>;
-  summaryText: string;
-}
-
-export interface Project {
-  id: number;
-  name: string;
-  description: string;
-  repositoryUrl: string;
-  technologies: string[];
-  studentRole: string;
-  durationMonths: number;
-  createdAt: string;
-}
-
-export interface Certificate {
-  id: number;
-  issuer: string;
-  courseName: string;
-  studentName: string;
-  credentialId: string;
-  issueDate: string;
-  verificationStatus: VerificationStatus;
-  extractedText: string;
-  matchedSkills?: string[];
-  createdAt: string;
-}
-
-/* Module 2 Learning & Development Types */
-export interface SkillGap {
+export interface SkillGapDetail {
   skillId: number;
   skillName: string;
   category: string;
-  requiredLevel: number;
-  verifiedScore: number;
+  requiredScore: number;
+  currentScore: number;
   gap: number;
   importance: number;
   priorityScore: number;
-  priorityLevel: PriorityLevel;
+  priorityLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
 }
 
-export interface GapAnalysisResult {
-  studentId: number;
-  targetRoleName: string;
-  totalGaps: number;
-  urgentGaps: number;
-  gaps: SkillGap[];
+export interface SkillGapAnalysis {
+  roleId: number;
+  roleName: string;
+  overallReadinessScore: number;
+  gaps: SkillGapDetail[];
 }
 
 export interface Course {
@@ -148,33 +71,28 @@ export interface Course {
   title: string;
   provider: string;
   url: string;
-  description: string;
-  difficulty: string;
-  durationHours: number;
-  qualityScore: number;
-  coverageLevel?: number;
+  duration: string;
+  level: string;
+  skillsTaught: string[];
 }
 
-export interface LearningProgressStep {
+export interface LearningPathNode {
   id: number;
-  learningPathId: number;
   stepNumber: number;
-  moduleTitle: string;
-  course?: Course;
-  status: LearningStatus;
-  progress: number;
+  title: string;
+  description: string;
+  skillName: string;
+  targetScore: number;
+  courses: Course[];
+  completed: boolean;
 }
 
 export interface LearningPath {
   id: number;
-  skillId: number;
-  skillName: string;
-  title: string;
-  totalSteps: number;
-  status: LearningStatus;
-  initialScore: number;
-  currentScore: number;
-  steps: LearningProgressStep[];
+  targetRoleName: string;
+  targetSkillName: string;
+  nodes: LearningPathNode[];
+  progressPercentage: number;
 }
 
 export interface ReassessmentResult {
@@ -183,5 +101,173 @@ export interface ReassessmentResult {
   previousScore: number;
   newScore: number;
   improvement: number;
-  updatedStatus: VerificationStatus;
+  passed: boolean;
+  notes: string;
+}
+
+export interface Company {
+  id: number;
+  name: string;
+  industry: string;
+  description: string;
+  website: string;
+  location: string;
+  verified: boolean;
+}
+
+export interface OpportunitySkill {
+  opportunityId?: number;
+  skillId: number;
+  skillName: string;
+  importance: number;
+  minimumScore: number;
+}
+
+export interface Opportunity {
+  id: number;
+  companyId: number;
+  company?: Company;
+  title: string;
+  type: 'INTERNSHIP' | 'JOB' | 'APPRENTICESHIP' | 'LIVE_PROJECT' | 'WORKSHOP' | 'MENTORSHIP';
+  description: string;
+  location: string;
+  duration: string;
+  stipend: string;
+  deadline: string;
+  status: string;
+  minCgpa: number;
+  preferredDegree: string;
+  skills: OpportunitySkill[];
+}
+
+export interface SkillMatchDetail {
+  skillId: number;
+  skillName: string;
+  requiredScore: number;
+  studentVerifiedScore: number;
+  status: 'STRONG' | 'MODERATE' | 'WEAK';
+  importance: number;
+}
+
+export interface MatchScoreBreakdown {
+  opportunityId: number;
+  studentProfileId: number;
+  overallMatchScore: number;
+  skillMatchScore: number;
+  eligibilityScore: number;
+  interestMatchScore: number;
+  locationMatchScore: number;
+  isEligible: boolean;
+  eligibilityReasons: string[];
+  skillBreakdown: SkillMatchDetail[];
+  biggestGapSkillName?: string;
+  biggestGapSkillId?: number;
+}
+
+export interface Application {
+  id: number;
+  opportunityId: number;
+  opportunityTitle: string;
+  companyName: string;
+  studentProfileId: number;
+  studentName: string;
+  status: 'APPLIED' | 'UNDER_REVIEW' | 'SHORTLISTED' | 'INTERVIEW' | 'SELECTED' | 'REJECTED';
+  appliedAt: string;
+  coverNote?: string;
+}
+
+export interface CandidateSearchResult {
+  studentId: number;
+  studentName: string;
+  gitHubUsername: string;
+  overallMatchScore: number;
+  topSkills: string[];
+  cgpa: number;
+  targetRole: string;
+}
+
+// Module 4 Types
+export interface Academician {
+  id: number;
+  name: string;
+  email: string;
+  institutionName: string;
+  department: string;
+  expertise: string;
+  researchAreas: string;
+  publications: string;
+  projects: string;
+  yearsExperience: number;
+}
+
+export interface Collaboration {
+  id: number;
+  companyName: string;
+  title: string;
+  description: string;
+  type: 'GUEST_LECTURE' | 'WORKSHOP' | 'MENTORSHIP' | 'LIVE_PROJECT' | 'RESEARCH' | 'FDP' | 'INDUSTRIAL_TRAINING' | 'CONSULTANCY' | 'INNOVATION_CHALLENGE';
+  requirements: string;
+  startDate: string;
+  endDate: string;
+  status: string;
+  skills: string[];
+}
+
+export interface FacultyMatchResult {
+  academicianId: number;
+  facultyName: string;
+  department: string;
+  expertise: string;
+  researchAreas: string;
+  matchScore: number;
+  matchedSkills: string[];
+  reasoning: string;
+}
+
+export interface Mentor {
+  id: number;
+  name: string;
+  companyName: string;
+  title: string;
+  expertise: string;
+  availability: string;
+  yearsExperience: number;
+}
+
+export interface Mentorship {
+  id: number;
+  mentorName: string;
+  companyName: string;
+  studentName: string;
+  skillName: string;
+  status: string;
+  startedAt: string;
+}
+
+export interface MentorFeedback {
+  id: number;
+  studentProfileId: number;
+  studentName: string;
+  mentorId: number;
+  mentorName: string;
+  skillId: number;
+  skillName: string;
+  score: number;
+  comments: string;
+  technicalEvaluation: string;
+  softSkillEvaluation: string;
+  createdAt: string;
+}
+
+export interface Internship {
+  id: number;
+  studentProfileId: number;
+  studentName: string;
+  companyName: string;
+  opportunityTitle: string;
+  mentorName: string;
+  startDate: string;
+  endDate: string;
+  status: 'ONGOING' | 'COMPLETED' | 'TERMINATED';
+  completionStatus?: string;
 }

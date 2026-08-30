@@ -1,5 +1,10 @@
+com\skillintel\platform\test\MatchingStrategyTest.class
+com\skillintel\platform\test\EvidenceEngineTest.class
+com\skillintel\platform\test\FacultyMatchingTest.class
+com\skillintel\platform\test\EligibilityEngineUnitTest.class
+com\skillintel\platform\test\MentorshipEvidenceIntegrationTest.class
 com\skillintel\platform\AstAnalysisServiceTest.class
 com\skillintel\platform\test\GitHubAnalyzerTest.class
+com\skillintel\platform\test\MentorshipEvidenceIntegrationTest$1.class
 com\skillintel\platform\test\ReassessmentServiceTest.class
-com\skillintel\platform\test\EvidenceEngineTest.class
 com\skillintel\platform\test\SkillGapServiceTest.class
