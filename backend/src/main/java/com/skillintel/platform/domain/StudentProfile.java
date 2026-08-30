@@ -23,6 +23,9 @@ public class StudentProfile {
     private String department;
     private Integer graduationYear;
 
+    private Double cgpa;
+    private String degree;
+
     @Column(columnDefinition = "TEXT")
     private String bio;
 
@@ -31,7 +34,7 @@ public class StudentProfile {
 
     public StudentProfile() {}
 
-    public StudentProfile(Long id, User user, TargetRole targetRole, String gitHubUsername, String institutionName, String department, Integer graduationYear, String bio, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public StudentProfile(Long id, User user, TargetRole targetRole, String gitHubUsername, String institutionName, String department, Integer graduationYear, Double cgpa, String degree, String bio, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
         this.user = user;
         this.targetRole = targetRole;
@@ -39,6 +42,8 @@ public class StudentProfile {
         this.institutionName = institutionName;
         this.department = department;
         this.graduationYear = graduationYear;
+        this.cgpa = cgpa;
+        this.degree = degree;
         this.bio = bio;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -54,6 +59,8 @@ public class StudentProfile {
         private String institutionName;
         private String department;
         private Integer graduationYear;
+        private Double cgpa;
+        private String degree;
         private String bio;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
@@ -65,12 +72,14 @@ public class StudentProfile {
         public Builder institutionName(String institutionName) { this.institutionName = institutionName; return this; }
         public Builder department(String department) { this.department = department; return this; }
         public Builder graduationYear(Integer graduationYear) { this.graduationYear = graduationYear; return this; }
+        public Builder cgpa(Double cgpa) { this.cgpa = cgpa; return this; }
+        public Builder degree(String degree) { this.degree = degree; return this; }
         public Builder bio(String bio) { this.bio = bio; return this; }
         public Builder createdAt(LocalDateTime createdAt) { this.createdAt = createdAt; return this; }
         public Builder updatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; return this; }
 
         public StudentProfile build() {
-            return new StudentProfile(id, user, targetRole, gitHubUsername, institutionName, department, graduationYear, bio, createdAt, updatedAt);
+            return new StudentProfile(id, user, targetRole, gitHubUsername, institutionName, department, graduationYear, cgpa, degree, bio, createdAt, updatedAt);
         }
     }
 
@@ -78,6 +87,8 @@ public class StudentProfile {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (cgpa == null) cgpa = 8.5;
+        if (degree == null) degree = "B.Tech Computer Science";
     }
 
     @PreUpdate
@@ -99,6 +110,10 @@ public class StudentProfile {
     public void setDepartment(String department) { this.department = department; }
     public Integer getGraduationYear() { return graduationYear; }
     public void setGraduationYear(Integer graduationYear) { this.graduationYear = graduationYear; }
+    public Double getCgpa() { return cgpa; }
+    public void setCgpa(Double cgpa) { this.cgpa = cgpa; }
+    public String getDegree() { return degree; }
+    public void setDegree(String degree) { this.degree = degree; }
     public String getBio() { return bio; }
     public void setBio(String bio) { this.bio = bio; }
     public LocalDateTime getCreatedAt() { return createdAt; }
