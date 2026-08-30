@@ -1,0 +1,5 @@
+com\skillintel\platform\AstAnalysisServiceTest.class
+com\skillintel\platform\test\GitHubAnalyzerTest.class
+com\skillintel\platform\test\ReassessmentServiceTest.class
+com\skillintel\platform\test\EvidenceEngineTest.class
+com\skillintel\platform\test\SkillGapServiceTest.class
